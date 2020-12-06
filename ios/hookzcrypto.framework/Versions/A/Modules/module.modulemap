@@ -1,0 +1,8 @@
+framework module "Hookzcrypto" {
+	header "ref.h"
+    header "Crypto.objc.h"
+    header "Universe.objc.h"
+    header "Hookzcrypto.h"
+
+    export *
+}
