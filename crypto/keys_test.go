@@ -1,6 +1,7 @@
 package crypto
 
 import (
+	"crypto/sha256"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -31,6 +32,18 @@ func TestSharedSecret(t *testing.T) {
 	bas := bob.PrivateKey.SharedSecretFrom(alice.PublicKey)
 	assert.Equal(t, abs, bas, "the shared secret should be equal")
 
+}
+
+func TestHKDF(t *testing.T) {
+	theirKey := NewKeyAgreementKeyPair()
+	ephimeralKey := NewKeyAgreementKeyPair()
+	shared := ephimeralKey.PrivateKey.SharedSecretFrom(theirKey.PublicKey)
+	additionalInfo := append(ephimeralKey.PublicKey.Key(), theirKey.PublicKey.Key()...)
+
+	ourSigningKey := NewSigningKeyPair()
+	additionalInfo = append(additionalInfo, ourSigningKey.PublicKey.Key()...)
+	key, _ := HKDF(sha256.New, shared, additionalInfo)
+	println("Symmetric Key ", key)
 }
 
 func TestSomething(t *testing.T) {
