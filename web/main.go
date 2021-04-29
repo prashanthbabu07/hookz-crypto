@@ -10,11 +10,12 @@ import (
 
 func main() {
 	c := make(chan struct{}, 0)
-	fmt.Println("Hello, WebAssembly!")
-	js.Global().Set("newPrint", js.FuncOf(printMessage))
-	js.Global().Set("add", js.FuncOf(addFunction))
-	js.Global().Set("formatJSON", jsonWrapper())
+	// fmt.Println("Hello, WebAssembly!")
+	// js.Global().Set("newPrint", js.FuncOf(printMessage))
+	// js.Global().Set("add", js.FuncOf(addFunction))
+	// js.Global().Set("formatJSON", jsonWrapper())
 	js.Global().Set("newIdentityKeyPair", web.NewIdentityKeyPair())
+	js.Global().Set("newSigningKeyPair", web.NewSigningKeyPair())
 	js.Global().Set("sharedSecret", web.SharedSecret())
 	js.Global().Set("encrypt", web.Encrypt())
 	js.Global().Set("decrypt", web.Decrypt())
