@@ -1,3 +1,19 @@
+# Building from source
+
+```
+go install golang.org/x/mobile/cmd/gomobile@latest
+gomobile init
+```
+
+```
+sudo xcode-select --switch /Volumes/Sandisk/Applications/Xcode.app
+```
+
+```
+make
+```
+
+
 # Hookz Crypto
  A crypto library for ios, android and web (wasm). Provides functions for end to end encryption (E2EE) across platforms.
 
