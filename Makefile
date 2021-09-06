@@ -1,2 +1,2 @@
 framework:
-	gomobile bind -target ios -o ./ios/hookzcrypto.framework github.com/prashanthbabu07/hookzcrypto/crypto
+	gomobile bind -target ios -o ./build/hookzcrypto.framework github.com/prashanthbabu07/hookzcrypto/crypto
