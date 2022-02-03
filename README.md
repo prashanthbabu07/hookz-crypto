@@ -68,11 +68,21 @@ make
 
 ```
 
-## Encryption
+## Encryption & Decryption
 ```go
 
-	func Encrypt(data []byte, theirPublicKey *KeyAgreementPublicKey, ourSigningKey *SigningKeyPair) (*SealedMessage, error)
-
+	var message = []byte("Hello World!")
+	theirKey := NewKeyAgreementKeyPair()
+	ourSigningKey := NewSigningKeyPair()
+	sealedMessage, err := Encrypt(message, theirKey.PublicKey, ourSigningKey)
+	if err != nil {
+		fmt.Print(err)
+	}
+	decryptedMessage, err := Decrypt(sealedMessage, theirKey, ourSigningKey.PublicKey)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(decryptedMessage))
 ```
 
 ## Decryption
@@ -81,6 +91,3 @@ make
 	func Decrypt(sealedMessage *SealedMessage, ourEncryptionKey *KeyAgreementKeyPair, theirSigningKey *SigningPublicKey) ([]byte, error)
 
 ```
-
-## More examples 
- Work in progress 
