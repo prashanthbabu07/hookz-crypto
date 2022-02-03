@@ -2,6 +2,8 @@ package crypto
 
 import (
 	"crypto/sha256"
+	"encoding/base64"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -44,6 +46,23 @@ func TestHKDF(t *testing.T) {
 	additionalInfo = append(additionalInfo, ourSigningKey.PublicKey.Key()...)
 	key, _ := HKDF(sha256.New, shared, additionalInfo)
 	println("Symmetric Key ", key)
+}
+
+func TestEncryption(t *testing.T) {
+	var message = []byte("Hello World!")
+	theirKey := NewKeyAgreementKeyPair()
+	ourSigningKey := NewSigningKeyPair()
+	sealedMessage, err := Encrypt(message, theirKey.PublicKey, ourSigningKey)
+	if err != nil {
+		fmt.Print(err)
+	}
+	fmt.Println(base64.StdEncoding.EncodeToString(sealedMessage.Cipher))
+	decryptedMessage, err := Decrypt(sealedMessage, theirKey, ourSigningKey.PublicKey)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(decryptedMessage))
+	assert.Equal(t, message, decryptedMessage, "Encrypted and Decrypted message should be the same")
 }
 
 func TestSomething(t *testing.T) {
