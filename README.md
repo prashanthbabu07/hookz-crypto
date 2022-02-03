@@ -27,6 +27,7 @@ make
 - Key agreement keypair
 - Key exchange for shared secret
 - Message signing
+- Encryption & Decryption
 
 # Examples
 
@@ -34,11 +35,11 @@ make
 
  ```go
 
-	alice := NewKeyAgreementKeyPair()
-	bob   := NewKeyAgreementKeyPair()
+alice := NewKeyAgreementKeyPair()
+bob   := NewKeyAgreementKeyPair()
 
-	var abs = alice.PrivateKey.SharedSecretFrom(bob.PublicKey)
-	var bas = bob.PrivateKey.SharedSecretFrom(alice.PublicKey)
+var abs = alice.PrivateKey.SharedSecretFrom(bob.PublicKey)
+var bas = bob.PrivateKey.SharedSecretFrom(alice.PublicKey)
 	
  ```
 
@@ -46,10 +47,10 @@ make
 
  ```go
 
-	signingKey := NewSigningKeyPair()
-	var message = []byte("Hello World!")
-	var signature = signingKey.PrivateKey.Sign(message)
-	var isValid = signingKey.PublicKey.IsValidSignature(signature, message)
+signingKey := NewSigningKeyPair()
+var message = []byte("Hello World!")
+var signature = signingKey.PrivateKey.Sign(message)
+var isValid = signingKey.PublicKey.IsValidSignature(signature, message)
 
 ```
 
@@ -57,30 +58,30 @@ make
 
 ```go
 
-	theirKey := NewKeyAgreementKeyPair()
-	ephimeralKey := NewKeyAgreementKeyPair()
-	shared := ephimeralKey.PrivateKey.SharedSecretFrom(theirKey.PublicKey)
-	additionalInfo := append(ephimeralKey.PublicKey.Key(), theirKey.PublicKey.Key()...)
-	ourSigningKey := NewSigningKeyPair()
-	additionalInfo = append(additionalInfo, ourSigningKey.PublicKey.Key()...)
-	key, _ := HKDF(sha256.New, shared, additionalInfo)
-	println("Symmetric Key ", key)
+theirKey := NewKeyAgreementKeyPair()
+ephimeralKey := NewKeyAgreementKeyPair()
+shared := ephimeralKey.PrivateKey.SharedSecretFrom(theirKey.PublicKey)
+additionalInfo := append(ephimeralKey.PublicKey.Key(), theirKey.PublicKey.Key()...)
+ourSigningKey := NewSigningKeyPair()
+additionalInfo = append(additionalInfo, ourSigningKey.PublicKey.Key()...)
+key, _ := HKDF(sha256.New, shared, additionalInfo)
+println("Symmetric Key ", key)
 
 ```
 
 ## Encryption & Decryption
 ```go
 
-	var message = []byte("Hello World!")
-	theirKey := NewKeyAgreementKeyPair()
-	ourSigningKey := NewSigningKeyPair()
-	sealedMessage, err := Encrypt(message, theirKey.PublicKey, ourSigningKey)
-	if err != nil {
-		fmt.Print(err)
-	}
-	decryptedMessage, err := Decrypt(sealedMessage, theirKey, ourSigningKey.PublicKey)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(string(decryptedMessage))
+var message = []byte("Hello World!")
+theirKey := NewKeyAgreementKeyPair()
+ourSigningKey := NewSigningKeyPair()
+sealedMessage, err := Encrypt(message, theirKey.PublicKey, ourSigningKey)
+if err != nil {
+	fmt.Print(err)
+}
+decryptedMessage, err := Decrypt(sealedMessage, theirKey, ourSigningKey.PublicKey)
+if err != nil {
+	fmt.Println(err)
+}
+fmt.Println(string(decryptedMessage))
 ```
