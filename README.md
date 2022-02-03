@@ -84,10 +84,3 @@ make
 	}
 	fmt.Println(string(decryptedMessage))
 ```
-
-## Decryption
-```go
-
-	func Decrypt(sealedMessage *SealedMessage, ourEncryptionKey *KeyAgreementKeyPair, theirSigningKey *SigningPublicKey) ([]byte, error)
-
-```
