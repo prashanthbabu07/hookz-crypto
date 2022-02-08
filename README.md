@@ -85,3 +85,11 @@ if err != nil {
 }
 fmt.Println(string(decryptedMessage))
 ```
+
+## Testing
+```go
+cd crypto
+go test -timeout 30s -run ^TestKeys
+
+go test -timeout 30s -run ^(TestKeys|TestMessageSigning|TestSharedSecret|TestHKDF|TestEncryption|TestSomething)
+```
